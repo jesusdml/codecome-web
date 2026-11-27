@@ -21,6 +21,7 @@ What is planned, roughly in order. Versions are targets, not promises; the Journ
     0600 file; the web only shows "set, ends in …, date" and can never read a key back;
   - web users and administrators, model prices;
   - a read-only "System" panel with what the installer decided (paths, users, port).
+- **Delete archived audits** from the Archive screen (admin only, typed confirmation, cannot be undone).
 - **Totals across all audits** for administrators: cost, tokens, cache savings and machine time of
   the current, archived and discarded audits, per project and per month.
 

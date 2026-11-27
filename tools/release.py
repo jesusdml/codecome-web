@@ -35,7 +35,7 @@ ALLOW = [  # paths (files or directories) that are published
     "app", "tests", "tools", "config/profiles.example.json", "config/prices.json", "config/mock",
     "deploy/tls-setup.sh", "deploy/templates", "install.sh", "uninstall.sh", "worker.py", "run.sh",
     "requirements.txt", "requirements-dev.txt", "pyproject.toml", ".env.example", ".gitignore",
-    "README.md", "ROADMAP.md", "LICENSE", "AGPL-LICENSE", "NOTICE", ".github",
+    "README.md", "ROADMAP.md", "LICENSE", "AGPL-LICENSE", "NOTICE", ".github", "media",
 ]
 
 # Private markers: generic checks + this installation's names from private-markers.txt (NOT published).

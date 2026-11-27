@@ -6,6 +6,8 @@ It turns CodeCome's phases into a guided journey: launch each phase, watch it wo
 the findings, read and print the report, replay exploit recordings, and keep a history of finished
 audits as encrypted archives. All the work is still done by CodeCome; this project never changes it.
 
+**▶ [A 30-second tour](media/codecome-web-1.1-spot.mp4)** (video, no sound).
+
 ![License: GPL-3.0-or-later OR AGPL-3.0-or-later](https://img.shields.io/badge/license-GPL--3.0--or--later%20OR%20AGPL--3.0--or--later-blue.svg)
 
 - **Journey** — the six phases (recon, hypotheses, counter-analysis, validation, exploit, report)
@@ -154,7 +156,7 @@ User-facing text lives only in `app/locales/*.json` (same keys in every language
   roadmap); one worker runs one job at a time.
 - The local CA covers the LAN case; a certificate of your own can replace the files in
   `/etc/codecome-web/tls` (an admin view for it is planned).
-- Encrypted zip uploads: ZipCrypto only (AES zips are refused with a clear message).
+- Encrypted zip uploads: ZipCrypto only (git as source planned too).
 - CodeCome Web is installed as an application directory with its own virtualenv, not as a pip package.
 
 ## License
