@@ -1,0 +1,89 @@
+{
+  "default": "mock",
+  "profiles": {
+    "mock": {
+      "enabled": true,
+      "env": {
+        "CODECOME_MODEL": "test/mockmodel",
+        "MOCKLLM_PORT": "18080",
+        "CODECOME_BUSY_STALL_TIMEOUT": "90",
+        "CODECOME_ALLOW_NO_SANDBOX": "1"
+      }
+    },
+    "local": {
+      "enabled": true,
+      "env": {
+        "CODECOME_MODEL": "local-ollama/qwen3.5:9b-32k",
+        "CODECOME_BUSY_STALL_TIMEOUT": "1800"
+      }
+    },
+    "api": {
+      "enabled": true,
+      "env": {
+        "CODECOME_MODEL": "anthropic/claude-sonnet-5-5",
+        "CODECOME_BUSY_STALL_TIMEOUT": "600"
+      },
+      "phase_env": {
+        "4": {
+          "CODECOME_MODEL": "anthropic/claude-opus-4-8"
+        },
+        "5": {
+          "CODECOME_MODEL": "anthropic/claude-opus-4-8"
+        },
+        "6": {
+          "CODECOME_MODEL": "anthropic/claude-opus-4-8"
+        }
+      }
+    }
+  },
+  "models": {
+    "sonnet-5-5": {
+      "label": "Sonnet 5.5",
+      "provider": "Anthropic",
+      "env": {
+        "CODECOME_MODEL": "anthropic/claude-sonnet-5-5"
+      }
+    },
+    "opus-5-5": {
+      "label": "Opus 5.5",
+      "provider": "Anthropic",
+      "env": {
+        "CODECOME_MODEL": "anthropic/claude-opus-5-5"
+      }
+    },
+    "opus-4-8": {
+      "label": "Opus 4.8",
+      "provider": "Anthropic",
+      "env": {
+        "CODECOME_MODEL": "anthropic/claude-opus-4-8"
+      }
+    },
+    "qwen-local": {
+      "label": "Qwen 3.5 9B",
+      "provider": "Ollama (local)",
+      "local": true,
+      "env": {
+        "CODECOME_MODEL": "local-ollama/qwen3.5:9b-32k"
+      }
+    },
+    "lynx-local": {
+      "label": "LYNX-ALPHA",
+      "provider": "Ollama (local)",
+      "local": true,
+      "phases": [
+        "4",
+        "5"
+      ],
+      "env": {
+        "CODECOME_MODEL": "local-ollama/hf.co/alphalabz/LYNX-ALPHA-GGUF:Q4_K_M"
+      }
+    },
+    "mock": {
+      "label": "Mock",
+      "provider": "test",
+      "env": {
+        "CODECOME_MODEL": "test/mockmodel"
+      }
+    }
+  }
+}

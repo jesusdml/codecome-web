@@ -1,0 +1,1120 @@
+{
+ "scenarios": [
+  {
+   "match": "codecome phase 1a: target profile",
+   "script": [
+    {
+     "type": "usage",
+     "prompt_tokens": 14135
+    },
+    {
+     "type": "sleep",
+     "seconds": 14
+    },
+    {
+     "type": "text",
+     "content": "I will start by reading the required reference files and then explore the source tree.",
+     "tokens_per_second": 14
+    },
+    {
+     "type": "tool_call",
+     "id": "call_1",
+     "name": "read",
+     "arguments": {
+      "filePath": "AGENTS.md"
+     }
+    },
+    {
+     "type": "tool_call",
+     "id": "call_2",
+     "name": "read",
+     "arguments": {
+      "filePath": "codecome.yml"
+     }
+    },
+    {
+     "type": "tool_call",
+     "id": "call_3",
+     "name": "read",
+     "arguments": {
+      "filePath": "templates/target-recon.md"
+     }
+    },
+    {
+     "type": "tool_call",
+     "id": "call_4",
+     "name": "read",
+     "arguments": {
+      "filePath": "templates/codeql-plan.yml"
+     }
+    },
+    {
+     "type": "tool_call",
+     "id": "call_5",
+     "name": "read",
+     "arguments": {
+      "filePath": ".opencode/agents/recon.md"
+     }
+    },
+    {
+     "type": "tool_call",
+     "id": "call_6",
+     "name": "read",
+     "arguments": {
+      "filePath": ".opencode/skills/source-recon/SKILL.md"
+     }
+    },
+    {
+     "type": "usage",
+     "prompt_tokens": 31765
+    },
+    {
+     "type": "sleep",
+     "seconds": 18
+    },
+    {
+     "type": "text",
+     "content": "Now let me explore the source tree under src/ to understand its structure.",
+     "tokens_per_second": 14
+    },
+    {
+     "type": "tool_call",
+     "id": "call_7",
+     "name": "glob",
+     "arguments": {
+      "pattern": "**/*",
+      "path": "src"
+     }
+    },
+    {
+     "type": "usage",
+     "prompt_tokens": 32100
+    },
+    {
+     "type": "sleep",
+     "seconds": 4
+    },
+    {
+     "type": "text",
+     "content": "The target is small. I will read the entry point and the dependency file.",
+     "tokens_per_second": 14
+    },
+    {
+     "type": "tool_call",
+     "id": "call_8",
+     "name": "read",
+     "arguments": {
+      "filePath": "src/app.py"
+     }
+    },
+    {
+     "type": "tool_call",
+     "id": "call_9",
+     "name": "read",
+     "arguments": {
+      "filePath": "src/requirements.txt"
+     }
+    },
+    {
+     "type": "usage",
+     "prompt_tokens": 33200
+    },
+    {
+     "type": "sleep",
+     "seconds": 4
+    },
+    {
+     "type": "text",
+     "content": "Writing the three Phase 1a notes and the run summary.",
+     "tokens_per_second": 14
+    },
+    {
+     "type": "tool_call",
+     "id": "call_10",
+     "name": "write",
+     "arguments": {
+      "filePath": "itemdb/notes/target-profile.md",
+      "content": "# Target Reconnaissance Notes\n\nDate: 2026-11-24\nPhase: reconnaissance\nTarget path: `./src`\n\n# Executive summary\n\nSmall Python web service built on the standard library (`http.server`). Three routes read user input\nfrom the query string: `/user`, `/ping`, `/file`.\n\n# Target profile\n\n## Detected target type\n\nDetected type: web application\n\nConfidence: HIGH\n\n## Languages\n\nPython (`app.py`).\n\n## Frameworks and technologies\n\nStandard library only: `http.server`, `sqlite3`, `subprocess`.\n\n## Repository structure\n\n- `app.py`: HTTP handler and routes\n- `public/`: static files served by `/file`\n- `requirements.txt`: no third-party dependencies\n"
+     }
+    },
+    {
+     "type": "tool_call",
+     "id": "call_11",
+     "name": "write",
+     "arguments": {
+      "filePath": "itemdb/notes/build-model.md",
+      "content": "# Build model\n\n- **Build system**: none (interpreted).\n- **Build commands**: none. Run with `python3 app.py`.\n- **Dependencies**: standard library only (`requirements.txt` is empty).\n- **Build prerequisites**: Python 3.\n- **Can the target be built in the workspace**: yes, there is nothing to build.\n"
+     }
+    },
+    {
+     "type": "tool_call",
+     "id": "call_12",
+     "name": "write",
+     "arguments": {
+      "filePath": "itemdb/notes/codeql-plan.yml",
+      "content": "schema_version: 2\ngenerated_by: \"phase-1a-profile\"\n\nsource_path: \"./src\"\nrecommended: true\n\nanalysis_units:\n  - id: \"app\"\n    path: \"./src\"\n    kind: \"service\"\n    primary: true\n    sandbox_build_target: \"root\"\n    languages:\n      - id: \"python\"\n        confidence: \"HIGH\"\n        build_mode: \"none\"\n        build_provider: \"none\"\n        packs:\n          - \"official\"\n"
+     }
+    },
+    {
+     "type": "tool_call",
+     "id": "call_13",
+     "name": "write",
+     "arguments": {
+      "filePath": "runs/phase-1a-summary-2026-11-24-000000.md",
+      "content": "# CodeCome Run Summary\n\n# Goal\n\nPhase 1a: target profile (mock run).\n\n# Files read\n\n- AGENTS.md\n- codecome.yml\n- src/app.py\n\n# Files created\n\n- itemdb/notes/target-profile.md\n- itemdb/notes/build-model.md\n- itemdb/notes/codeql-plan.yml\n\n# Important observations\n\nMock run on the tiny demo target.\n\n# Assumptions\n\nNone.\n\n# Open questions for the user\n\nNone.\n\n# Re-run prompt hints\n\nNone.\n"
+     }
+    },
+    {
+     "type": "usage",
+     "prompt_tokens": 34000
+    },
+    {
+     "type": "sleep",
+     "seconds": 3
+    },
+    {
+     "type": "text",
+     "content": "Validating the CodeQL plan.",
+     "tokens_per_second": 14
+    },
+    {
+     "type": "tool_call",
+     "id": "call_14",
+     "name": "bash",
+     "arguments": {
+      "command": "rtk python3 tools/codecome.py check-codeql-plan",
+      "description": "Validate the CodeQL plan"
+     }
+    },
+    {
+     "type": "usage",
+     "prompt_tokens": 34400
+    },
+    {
+     "type": "text",
+     "content": "Phase 1a is complete: target profile, build model and CodeQL plan are written.",
+     "tokens_per_second": 14
+    },
+    {
+     "type": "done"
+    }
+   ]
+  },
+  {
+   "match": "codecome phase 1b: sandbox bootstrap",
+   "script": [
+    {
+     "type": "usage",
+     "prompt_tokens": 15200
+    },
+    {
+     "type": "sleep",
+     "seconds": 8
+    },
+    {
+     "type": "text",
+     "content": "I will read the Phase 1a notes before planning the sandbox.",
+     "tokens_per_second": 14
+    },
+    {
+     "type": "tool_call",
+     "id": "call_15",
+     "name": "read",
+     "arguments": {
+      "filePath": "itemdb/notes/target-profile.md"
+     }
+    },
+    {
+     "type": "tool_call",
+     "id": "call_16",
+     "name": "read",
+     "arguments": {
+      "filePath": "itemdb/notes/build-model.md"
+     }
+    },
+    {
+     "type": "usage",
+     "prompt_tokens": 18900
+    },
+    {
+     "type": "sleep",
+     "seconds": 4
+    },
+    {
+     "type": "text",
+     "content": "The target needs no build, so the sandbox plan is minimal. Writing the plan and the summary.",
+     "tokens_per_second": 14
+    },
+    {
+     "type": "tool_call",
+     "id": "call_17",
+     "name": "write",
+     "arguments": {
+      "filePath": "itemdb/notes/sandbox-plan.md",
+      "content": "# Sandbox plan\n\nThe target is a single Python script with no third-party dependencies, so no build step is needed.\n\n- **Base image**: `python:3-slim` would be enough to run it.\n- **Network**: none required to run the target.\n- **Build target `root`**: nothing to compile.\n- **Status**: not generated in this mock run (no Docker build was performed).\n"
+     }
+    },
+    {
+     "type": "tool_call",
+     "id": "call_18",
+     "name": "write",
+     "arguments": {
+      "filePath": "runs/phase-1b-summary-2026-11-24-000001.md",
+      "content": "# CodeCome Run Summary\n\n# Goal\n\nPhase 1b: sandbox bootstrap (mock run).\n\n# Files read\n\n- itemdb/notes/target-profile.md\n- itemdb/notes/build-model.md\n\n# Files created\n\n- itemdb/notes/sandbox-plan.md\n\n# Important observations\n\nMock run on the tiny demo target.\n\n# Assumptions\n\nNone.\n\n# Open questions for the user\n\nNone.\n\n# Re-run prompt hints\n\nNone.\n"
+     }
+    },
+    {
+     "type": "tool_call",
+     "id": "call_19",
+     "name": "write",
+     "arguments": {
+      "filePath": "runs/phase-1b-summary.md",
+      "content": "# CodeCome Run Summary\n\n# Goal\n\nPhase 1b: sandbox bootstrap (mock run).\n\n# Files read\n\n- itemdb/notes/target-profile.md\n- itemdb/notes/build-model.md\n\n# Files created\n\n- itemdb/notes/sandbox-plan.md\n\n# Important observations\n\nMock run on the tiny demo target.\n\n# Assumptions\n\nNone.\n\n# Open questions for the user\n\nNone.\n\n# Re-run prompt hints\n\nNone.\n"
+     }
+    },
+    {
+     "type": "usage",
+     "prompt_tokens": 19500
+    },
+    {
+     "type": "text",
+     "content": "Phase 1b is complete: the sandbox plan is written.",
+     "tokens_per_second": 14
+    },
+    {
+     "type": "done"
+    }
+   ]
+  },
+  {
+   "match": "codecome phase 1c: detailed reconnaissance",
+   "script": [
+    {
+     "type": "usage",
+     "prompt_tokens": 16000
+    },
+    {
+     "type": "sleep",
+     "seconds": 8
+    },
+    {
+     "type": "text",
+     "content": "I will read the previous notes and the entry point before writing the reconnaissance notes.",
+     "tokens_per_second": 14
+    },
+    {
+     "type": "tool_call",
+     "id": "call_20",
+     "name": "read",
+     "arguments": {
+      "filePath": "itemdb/notes/target-profile.md"
+     }
+    },
+    {
+     "type": "tool_call",
+     "id": "call_21",
+     "name": "read",
+     "arguments": {
+      "filePath": "itemdb/notes/sandbox-plan.md"
+     }
+    },
+    {
+     "type": "tool_call",
+     "id": "call_22",
+     "name": "read",
+     "arguments": {
+      "filePath": "src/app.py"
+     }
+    },
+    {
+     "type": "usage",
+     "prompt_tokens": 24000
+    },
+    {
+     "type": "sleep",
+     "seconds": 4
+    },
+    {
+     "type": "text",
+     "content": "Writing the reconnaissance notes, the threat model and the file risk index.",
+     "tokens_per_second": 14
+    },
+    {
+     "type": "tool_call",
+     "id": "call_23",
+     "name": "write",
+     "arguments": {
+      "filePath": "itemdb/notes/attack-surface.md",
+      "content": "# Attack surface\n\n- `/user?name=`\n- `/ping?host=`\n- `/file?name=`\n"
+     }
+    },
+    {
+     "type": "tool_call",
+     "id": "call_24",
+     "name": "write",
+     "arguments": {
+      "filePath": "itemdb/notes/execution-model.md",
+      "content": "# Execution model\n\nOne process; each request handled synchronously by `Handler.do_GET`.\n"
+     }
+    },
+    {
+     "type": "tool_call",
+     "id": "call_25",
+     "name": "write",
+     "arguments": {
+      "filePath": "itemdb/notes/trust-boundaries.md",
+      "content": "# Trust boundaries\n\nNetwork client -> HTTP handler -> SQLite / shell / filesystem.\n"
+     }
+    },
+    {
+     "type": "tool_call",
+     "id": "call_26",
+     "name": "write",
+     "arguments": {
+      "filePath": "itemdb/notes/data-flow.md",
+      "content": "# Data flow\n\n`parse_qs(url.query)` -> string formatting / concatenation -> sink.\n"
+     }
+    },
+    {
+     "type": "tool_call",
+     "id": "call_27",
+     "name": "write",
+     "arguments": {
+      "filePath": "itemdb/notes/validation-model.md",
+      "content": "# Validation model\n\nEach route can be exercised with a single HTTP request.\n"
+     }
+    },
+    {
+     "type": "tool_call",
+     "id": "call_28",
+     "name": "write",
+     "arguments": {
+      "filePath": "itemdb/notes/interesting-files.md",
+      "content": "# Interesting files\n\n- `src/app.py`: all the logic.\n- `src/public/index.html`: static.\n"
+     }
+    },
+    {
+     "type": "tool_call",
+     "id": "call_29",
+     "name": "write",
+     "arguments": {
+      "filePath": "itemdb/notes/security-assumptions.md",
+      "content": "# Security assumptions\n\nThe service is reachable by untrusted clients.\n"
+     }
+    },
+    {
+     "type": "tool_call",
+     "id": "call_30",
+     "name": "write",
+     "arguments": {
+      "filePath": "itemdb/notes/file-risk-index.yml",
+      "content": "schema_version: 1\ngenerated_by: \"phase-1-recon\"\ngenerated_at: \"2026-11-24T15:40:00Z\"\ntarget: \"demo-src\"\nfiles:\n  - path: \"src/app.py\"\n    score: 5\n    reasons:\n      - \"network entry point\"\n      - \"query string reaches SQL, a shell and the filesystem\"\n  - path: \"src/public/index.html\"\n    score: 1\n    reasons:\n      - \"static content\"\n"
+     }
+    },
+    {
+     "type": "tool_call",
+     "id": "call_31",
+     "name": "write",
+     "arguments": {
+      "filePath": "itemdb/notes/threat-model.md",
+      "content": "# Threat Model Summary\n\nA tiny HTTP service whose three routes pass query-string input to dangerous operations.\n\n# Scope\n\n`src/app.py` and the static files under `src/public/`.\n\n# System model\n\nSingle process, `http.server`, in-memory SQLite, `subprocess` with a shell.\n\n# Assets and security objectives\n\nConfidentiality of the `users` table; integrity of the host; files outside `public/`.\n\n# Attacker model\n\nAny unauthenticated network client that can reach the listening port.\n\n# Trust boundary summary\n\nThe query string crosses from the network into SQL, a shell command and a file path.\n\n# Existing controls\n\nNone: no authentication, validation or escaping.\n\n# Abuse-path themes for Phase 2\n\nSQL injection, OS command injection, path traversal.\n\n# Risk calibration for review focus\n\nEverything in `app.py` is high interest; `public/index.html` is static.\n\n# Open questions for the user\n\nNone.\n\n# Re-run prompt hints\n\nNone.\n"
+     }
+    },
+    {
+     "type": "tool_call",
+     "id": "call_32",
+     "name": "write",
+     "arguments": {
+      "filePath": "runs/phase-1c-summary-2026-11-24-000001.md",
+      "content": "# CodeCome Run Summary\n\n# Goal\n\nPhase 1c: detailed reconnaissance (mock run).\n\n# Files read\n\n- src/app.py\n\n# Files created\n\n- itemdb/notes/threat-model.md\n- itemdb/notes/file-risk-index.yml\n\n# Important observations\n\nMock run on the tiny demo target.\n\n# Assumptions\n\nNone.\n\n# Open questions for the user\n\nNone.\n\n# Re-run prompt hints\n\nNone.\n"
+     }
+    },
+    {
+     "type": "tool_call",
+     "id": "call_33",
+     "name": "write",
+     "arguments": {
+      "filePath": "runs/phase-1c-summary.md",
+      "content": "# CodeCome Run Summary\n\n# Goal\n\nPhase 1c: detailed reconnaissance (mock run).\n\n# Files read\n\n- src/app.py\n\n# Files created\n\n- itemdb/notes/threat-model.md\n- itemdb/notes/file-risk-index.yml\n\n# Important observations\n\nMock run on the tiny demo target.\n\n# Assumptions\n\nNone.\n\n# Open questions for the user\n\nNone.\n\n# Re-run prompt hints\n\nNone.\n"
+     }
+    },
+    {
+     "type": "usage",
+     "prompt_tokens": 26000
+    },
+    {
+     "type": "text",
+     "content": "Phase 1c is complete: reconnaissance notes, threat model and risk index are written.",
+     "tokens_per_second": 14
+    },
+    {
+     "type": "done"
+    }
+   ]
+  },
+  {
+   "match": "codecome phase 2: vulnerability hypothesis generation",
+   "script": [
+    {
+     "type": "usage",
+     "prompt_tokens": 22000
+    },
+    {
+     "type": "sleep",
+     "seconds": 10
+    },
+    {
+     "type": "text",
+     "content": "I will read the reconnaissance notes and the target before forming hypotheses.",
+     "tokens_per_second": 14
+    },
+    {
+     "type": "tool_call",
+     "id": "call_37",
+     "name": "read",
+     "arguments": {
+      "filePath": "AGENTS.md"
+     }
+    },
+    {
+     "type": "tool_call",
+     "id": "call_38",
+     "name": "read",
+     "arguments": {
+      "filePath": "templates/finding.md"
+     }
+    },
+    {
+     "type": "tool_call",
+     "id": "call_34",
+     "name": "read",
+     "arguments": {
+      "filePath": "itemdb/notes/target-profile.md"
+     }
+    },
+    {
+     "type": "tool_call",
+     "id": "call_35",
+     "name": "read",
+     "arguments": {
+      "filePath": "itemdb/notes/threat-model.md"
+     }
+    },
+    {
+     "type": "tool_call",
+     "id": "call_36",
+     "name": "read",
+     "arguments": {
+      "filePath": "itemdb/notes/file-risk-index.yml"
+     }
+    },
+    {
+     "type": "tool_call",
+     "id": "call_39",
+     "name": "read",
+     "arguments": {
+      "filePath": "src/app.py"
+     }
+    },
+    {
+     "type": "usage",
+     "prompt_tokens": 30000
+    },
+    {
+     "type": "sleep",
+     "seconds": 6
+    },
+    {
+     "type": "text",
+     "content": "Three routes pass query-string input to dangerous operations. Writing one finding for each.",
+     "tokens_per_second": 14
+    },
+    {
+     "type": "tool_call",
+     "id": "call_40",
+     "name": "write",
+     "arguments": {
+      "filePath": "itemdb/findings/PENDING/CC-0001-sql-injection-user-name.md",
+      "content": "---\nid: \"CC-0001\"\ntitle: \"SQL injection in /user via the name parameter\"\nstatus: \"PENDING\"\nseverity: \"HIGH\"\ncvss_v4:\n  vector: \"\"\n  score: 0.0\n  justification: \"\"\nconfidence: \"MEDIUM\"\ncategory: \"SQL injection\"\ncwe:\n  - \"CWE-89\"\nlanguage: \"python\"\ntarget_area: \"HTTP handler /user?name=\"\nfiles:\n  - \"src/app.py\"\nsymbols:\n  - \"Handler.do_GET\"\nentry_points:\n  - \"GET /user?name=\"\nsources:\n  - \"query string parameter 'name'\"\nsinks:\n  - \"sqlite3 execute() with string formatting\"\ntrust_boundary: \"network client to the service host\"\nassets_at_risk:\n  - \"users table (names and secrets)\"\nvalidation:\n  status: \"NOT_STARTED\"\n  methods: []\n  evidence_dir: \"itemdb/evidence/CC-0001\"\n  summary: \"\"\nexploitation:\n  status: \"NOT_STARTED\"\n  impact_demonstrated: \"\"\n  exploit_type: \"\"\n  severity_before: \"\"\n  severity_after: \"\"\n  artifacts_dir: \"itemdb/evidence/CC-0001/exploits\"\n  summary: \"\"\ncreated_at: \"2026-11-24\"\nupdated_at: \"2026-11-24\"\n---\n\n# Summary\n\nThe `/user?name=` route passes the query string parameter 'name' to sqlite3 execute() with string formatting without validation.\n\n# Target context\n\nSmall standard-library Python web service; the route is reachable by any unauthenticated network client.\n\n# Affected code\n\n`src/app.py`, `Handler.do_GET`:\n\n    rows = DB.execute(\"SELECT id, name FROM users WHERE name = '%s'\" % name)\n\n# Vulnerability hypothesis\n\nThe input is attacker-controlled and reaches a dangerous operation unchanged. This is known from reading the code; the\nexact behaviour at runtime is assumed until Phase 4 reproduces it.\n\n# Source-to-sink reasoning\n\n`parse_qs(url.query)` returns the raw parameter; the value is used directly in the sink on the next lines.\n\n# Attackability / trigger conditions\n\nA single GET request, for example `name=' OR '1'='1`. No authentication or special state is needed.\n\n# Impact\n\nRead every row of the users table, including the secrets.\n\n# Validation plan\n\nStart the service in the sandbox and send the request above; compare the response with a benign request.\n\n# Counter-analysis\n\nFirst pass: no validation, escaping or allow-list was found between the source and the sink.\n\n# Validation result\n\nNot validated yet.\n\n# Evidence\n\nNone yet.\n"
+     }
+    },
+    {
+     "type": "tool_call",
+     "id": "call_41",
+     "name": "write",
+     "arguments": {
+      "filePath": "itemdb/findings/PENDING/CC-0002-os-command-injection-ping.md",
+      "content": "---\nid: \"CC-0002\"\ntitle: \"OS command injection in /ping via the host parameter\"\nstatus: \"PENDING\"\nseverity: \"CRITICAL\"\ncvss_v4:\n  vector: \"\"\n  score: 0.0\n  justification: \"\"\nconfidence: \"MEDIUM\"\ncategory: \"OS command injection\"\ncwe:\n  - \"CWE-78\"\nlanguage: \"python\"\ntarget_area: \"HTTP handler /ping?host=\"\nfiles:\n  - \"src/app.py\"\nsymbols:\n  - \"Handler.do_GET\"\nentry_points:\n  - \"GET /ping?host=\"\nsources:\n  - \"query string parameter 'host'\"\nsinks:\n  - \"subprocess.run(..., shell=True)\"\ntrust_boundary: \"network client to the service host\"\nassets_at_risk:\n  - \"the host running the service\"\nvalidation:\n  status: \"NOT_STARTED\"\n  methods: []\n  evidence_dir: \"itemdb/evidence/CC-0002\"\n  summary: \"\"\nexploitation:\n  status: \"NOT_STARTED\"\n  impact_demonstrated: \"\"\n  exploit_type: \"\"\n  severity_before: \"\"\n  severity_after: \"\"\n  artifacts_dir: \"itemdb/evidence/CC-0002/exploits\"\n  summary: \"\"\ncreated_at: \"2026-11-24\"\nupdated_at: \"2026-11-24\"\n---\n\n# Summary\n\nThe `/ping?host=` route passes the query string parameter 'host' to subprocess.run(..., shell=True) without validation.\n\n# Target context\n\nSmall standard-library Python web service; the route is reachable by any unauthenticated network client.\n\n# Affected code\n\n`src/app.py`, `Handler.do_GET`:\n\n    result = subprocess.run(\"ping -c 1 \" + host, shell=True, capture_output=True, text=True)\n\n# Vulnerability hypothesis\n\nThe input is attacker-controlled and reaches a dangerous operation unchanged. This is known from reading the code; the\nexact behaviour at runtime is assumed until Phase 4 reproduces it.\n\n# Source-to-sink reasoning\n\n`parse_qs(url.query)` returns the raw parameter; the value is used directly in the sink on the next lines.\n\n# Attackability / trigger conditions\n\nA single GET request, for example `host=127.0.0.1;id`. No authentication or special state is needed.\n\n# Impact\n\nRun arbitrary commands with the privileges of the service.\n\n# Validation plan\n\nStart the service in the sandbox and send the request above; compare the response with a benign request.\n\n# Counter-analysis\n\nFirst pass: no validation, escaping or allow-list was found between the source and the sink.\n\n# Validation result\n\nNot validated yet.\n\n# Evidence\n\nNone yet.\n"
+     }
+    },
+    {
+     "type": "tool_call",
+     "id": "call_42",
+     "name": "write",
+     "arguments": {
+      "filePath": "itemdb/findings/PENDING/CC-0003-path-traversal-file-name.md",
+      "content": "---\nid: \"CC-0003\"\ntitle: \"Path traversal in /file via the name parameter\"\nstatus: \"PENDING\"\nseverity: \"MEDIUM\"\ncvss_v4:\n  vector: \"\"\n  score: 0.0\n  justification: \"\"\nconfidence: \"MEDIUM\"\ncategory: \"Path traversal\"\ncwe:\n  - \"CWE-22\"\nlanguage: \"python\"\ntarget_area: \"HTTP handler /file?name=\"\nfiles:\n  - \"src/app.py\"\nsymbols:\n  - \"Handler.do_GET\"\nentry_points:\n  - \"GET /file?name=\"\nsources:\n  - \"query string parameter 'name'\"\nsinks:\n  - \"open(os.path.join(PUBLIC_DIR, name))\"\ntrust_boundary: \"network client to the service host\"\nassets_at_risk:\n  - \"files readable by the service account\"\nvalidation:\n  status: \"NOT_STARTED\"\n  methods: []\n  evidence_dir: \"itemdb/evidence/CC-0003\"\n  summary: \"\"\nexploitation:\n  status: \"NOT_STARTED\"\n  impact_demonstrated: \"\"\n  exploit_type: \"\"\n  severity_before: \"\"\n  severity_after: \"\"\n  artifacts_dir: \"itemdb/evidence/CC-0003/exploits\"\n  summary: \"\"\ncreated_at: \"2026-11-24\"\nupdated_at: \"2026-11-24\"\n---\n\n# Summary\n\nThe `/file?name=` route passes the query string parameter 'name' to open(os.path.join(PUBLIC_DIR, name)) without validation.\n\n# Target context\n\nSmall standard-library Python web service; the route is reachable by any unauthenticated network client.\n\n# Affected code\n\n`src/app.py`, `Handler.do_GET`:\n\n    with open(os.path.join(PUBLIC_DIR, name)) as handle:\n\n# Vulnerability hypothesis\n\nThe input is attacker-controlled and reaches a dangerous operation unchanged. This is known from reading the code; the\nexact behaviour at runtime is assumed until Phase 4 reproduces it.\n\n# Source-to-sink reasoning\n\n`parse_qs(url.query)` returns the raw parameter; the value is used directly in the sink on the next lines.\n\n# Attackability / trigger conditions\n\nA single GET request, for example `name=../app.py`. No authentication or special state is needed.\n\n# Impact\n\nRead any file the service account can read.\n\n# Validation plan\n\nStart the service in the sandbox and send the request above; compare the response with a benign request.\n\n# Counter-analysis\n\nFirst pass: no validation, escaping or allow-list was found between the source and the sink.\n\n# Validation result\n\nNot validated yet.\n\n# Evidence\n\nNone yet.\n"
+     }
+    },
+    {
+     "type": "tool_call",
+     "id": "call_43",
+     "name": "write",
+     "arguments": {
+      "filePath": "runs/phase-2-summary-2026-11-24-000003.md",
+      "content": "# CodeCome Run Summary\n\n# Goal\n\nPhase 2: hypothesis generation (mock run).\n\n# Files read\n\n- src/app.py\n- itemdb/notes/threat-model.md\n\n# Files created\n\n- itemdb/findings/PENDING/CC-0001-sql-injection-user-name.md\n- itemdb/findings/PENDING/CC-0002-os-command-injection-ping.md\n- itemdb/findings/PENDING/CC-0003-path-traversal-file-name.md\n\n# Important observations\n\nMock run on the tiny demo target.\n\n# Assumptions\n\nNone.\n\n# Open questions for the user\n\nNone.\n\n# Re-run prompt hints\n\nNone.\n"
+     }
+    },
+    {
+     "type": "usage",
+     "prompt_tokens": 33000
+    },
+    {
+     "type": "sleep",
+     "seconds": 3
+    },
+    {
+     "type": "text",
+     "content": "Checking that the findings are well formed.",
+     "tokens_per_second": 14
+    },
+    {
+     "type": "tool_call",
+     "id": "call_44",
+     "name": "bash",
+     "arguments": {
+      "command": "python3 tools/check-frontmatter.py",
+      "description": "Validate finding frontmatter"
+     }
+    },
+    {
+     "type": "usage",
+     "prompt_tokens": 33500
+    },
+    {
+     "type": "text",
+     "content": "Phase 2 is complete: three candidate findings were created in PENDING.",
+     "tokens_per_second": 14
+    },
+    {
+     "type": "done"
+    }
+   ]
+  },
+  {
+   "match": "codecome phase 3: counter-analysis and deduplication",
+   "script": [
+    {
+     "type": "usage",
+     "prompt_tokens": 24000
+    },
+    {
+     "type": "sleep",
+     "seconds": 8
+    },
+    {
+     "type": "text",
+     "content": "I will re-read each candidate finding and try to disprove or deduplicate it.",
+     "tokens_per_second": 14
+    },
+    {
+     "type": "tool_call",
+     "id": "call_45",
+     "name": "read",
+     "arguments": {
+      "filePath": "itemdb/findings/PENDING/CC-0001-sql-injection-user-name.md"
+     }
+    },
+    {
+     "type": "tool_call",
+     "id": "call_46",
+     "name": "read",
+     "arguments": {
+      "filePath": "itemdb/findings/PENDING/CC-0002-os-command-injection-ping.md"
+     }
+    },
+    {
+     "type": "tool_call",
+     "id": "call_47",
+     "name": "read",
+     "arguments": {
+      "filePath": "itemdb/findings/PENDING/CC-0003-path-traversal-file-name.md"
+     }
+    },
+    {
+     "type": "tool_call",
+     "id": "call_48",
+     "name": "read",
+     "arguments": {
+      "filePath": "itemdb/notes/threat-model.md"
+     }
+    },
+    {
+     "type": "usage",
+     "prompt_tokens": 30000
+    },
+    {
+     "type": "sleep",
+     "seconds": 5
+    },
+    {
+     "type": "text",
+     "content": "None of the three is a duplicate and none can be disproved from the code. Recording the counter-analysis.",
+     "tokens_per_second": 14
+    },
+    {
+     "type": "tool_call",
+     "id": "call_49",
+     "name": "write",
+     "arguments": {
+      "filePath": "itemdb/findings/PENDING/CC-0001-sql-injection-user-name.md",
+      "content": "---\nid: \"CC-0001\"\ntitle: \"SQL injection in /user via the name parameter\"\nstatus: \"PENDING\"\nseverity: \"HIGH\"\ncvss_v4:\n  vector: \"\"\n  score: 0.0\n  justification: \"\"\nconfidence: \"MEDIUM\"\ncategory: \"SQL injection\"\ncwe:\n  - \"CWE-89\"\nlanguage: \"python\"\ntarget_area: \"HTTP handler /user?name=\"\nfiles:\n  - \"src/app.py\"\nsymbols:\n  - \"Handler.do_GET\"\nentry_points:\n  - \"GET /user?name=\"\nsources:\n  - \"query string parameter 'name'\"\nsinks:\n  - \"sqlite3 execute() with string formatting\"\ntrust_boundary: \"network client to the service host\"\nassets_at_risk:\n  - \"users table (names and secrets)\"\nvalidation:\n  status: \"NOT_STARTED\"\n  methods: []\n  evidence_dir: \"itemdb/evidence/CC-0001\"\n  summary: \"\"\nexploitation:\n  status: \"NOT_STARTED\"\n  impact_demonstrated: \"\"\n  exploit_type: \"\"\n  severity_before: \"\"\n  severity_after: \"\"\n  artifacts_dir: \"itemdb/evidence/CC-0001/exploits\"\n  summary: \"\"\ncreated_at: \"2026-11-24\"\nupdated_at: \"2026-11-24\"\n---\n\n# Summary\n\nThe `/user?name=` route passes the query string parameter 'name' to sqlite3 execute() with string formatting without validation.\n\n# Target context\n\nSmall standard-library Python web service; the route is reachable by any unauthenticated network client.\n\n# Affected code\n\n`src/app.py`, `Handler.do_GET`:\n\n    rows = DB.execute(\"SELECT id, name FROM users WHERE name = '%s'\" % name)\n\n# Vulnerability hypothesis\n\nThe input is attacker-controlled and reaches a dangerous operation unchanged. This is known from reading the code; the\nexact behaviour at runtime is assumed until Phase 4 reproduces it.\n\n# Source-to-sink reasoning\n\n`parse_qs(url.query)` returns the raw parameter; the value is used directly in the sink on the next lines.\n\n# Attackability / trigger conditions\n\nA single GET request, for example `name=' OR '1'='1`. No authentication or special state is needed.\n\n# Impact\n\nRead every row of the users table, including the secrets.\n\n# Validation plan\n\nStart the service in the sandbox and send the request above; compare the response with a benign request.\n\n# Counter-analysis\n\nPhase 3 review: looked for validation, escaping or an allow-list on the path from the source to the sink and found none. Not a duplicate of the other two findings (different sink and root cause). Kept as PENDING.\n\n# Validation result\n\nNot validated yet.\n\n# Evidence\n\nNone yet.\n"
+     }
+    },
+    {
+     "type": "tool_call",
+     "id": "call_50",
+     "name": "write",
+     "arguments": {
+      "filePath": "itemdb/findings/PENDING/CC-0002-os-command-injection-ping.md",
+      "content": "---\nid: \"CC-0002\"\ntitle: \"OS command injection in /ping via the host parameter\"\nstatus: \"PENDING\"\nseverity: \"CRITICAL\"\ncvss_v4:\n  vector: \"\"\n  score: 0.0\n  justification: \"\"\nconfidence: \"MEDIUM\"\ncategory: \"OS command injection\"\ncwe:\n  - \"CWE-78\"\nlanguage: \"python\"\ntarget_area: \"HTTP handler /ping?host=\"\nfiles:\n  - \"src/app.py\"\nsymbols:\n  - \"Handler.do_GET\"\nentry_points:\n  - \"GET /ping?host=\"\nsources:\n  - \"query string parameter 'host'\"\nsinks:\n  - \"subprocess.run(..., shell=True)\"\ntrust_boundary: \"network client to the service host\"\nassets_at_risk:\n  - \"the host running the service\"\nvalidation:\n  status: \"NOT_STARTED\"\n  methods: []\n  evidence_dir: \"itemdb/evidence/CC-0002\"\n  summary: \"\"\nexploitation:\n  status: \"NOT_STARTED\"\n  impact_demonstrated: \"\"\n  exploit_type: \"\"\n  severity_before: \"\"\n  severity_after: \"\"\n  artifacts_dir: \"itemdb/evidence/CC-0002/exploits\"\n  summary: \"\"\ncreated_at: \"2026-11-24\"\nupdated_at: \"2026-11-24\"\n---\n\n# Summary\n\nThe `/ping?host=` route passes the query string parameter 'host' to subprocess.run(..., shell=True) without validation.\n\n# Target context\n\nSmall standard-library Python web service; the route is reachable by any unauthenticated network client.\n\n# Affected code\n\n`src/app.py`, `Handler.do_GET`:\n\n    result = subprocess.run(\"ping -c 1 \" + host, shell=True, capture_output=True, text=True)\n\n# Vulnerability hypothesis\n\nThe input is attacker-controlled and reaches a dangerous operation unchanged. This is known from reading the code; the\nexact behaviour at runtime is assumed until Phase 4 reproduces it.\n\n# Source-to-sink reasoning\n\n`parse_qs(url.query)` returns the raw parameter; the value is used directly in the sink on the next lines.\n\n# Attackability / trigger conditions\n\nA single GET request, for example `host=127.0.0.1;id`. No authentication or special state is needed.\n\n# Impact\n\nRun arbitrary commands with the privileges of the service.\n\n# Validation plan\n\nStart the service in the sandbox and send the request above; compare the response with a benign request.\n\n# Counter-analysis\n\nPhase 3 review: looked for validation, escaping or an allow-list on the path from the source to the sink and found none. Not a duplicate of the other two findings (different sink and root cause). Kept as PENDING.\n\n# Validation result\n\nNot validated yet.\n\n# Evidence\n\nNone yet.\n"
+     }
+    },
+    {
+     "type": "tool_call",
+     "id": "call_51",
+     "name": "write",
+     "arguments": {
+      "filePath": "itemdb/findings/PENDING/CC-0003-path-traversal-file-name.md",
+      "content": "---\nid: \"CC-0003\"\ntitle: \"Path traversal in /file via the name parameter\"\nstatus: \"PENDING\"\nseverity: \"MEDIUM\"\ncvss_v4:\n  vector: \"\"\n  score: 0.0\n  justification: \"\"\nconfidence: \"MEDIUM\"\ncategory: \"Path traversal\"\ncwe:\n  - \"CWE-22\"\nlanguage: \"python\"\ntarget_area: \"HTTP handler /file?name=\"\nfiles:\n  - \"src/app.py\"\nsymbols:\n  - \"Handler.do_GET\"\nentry_points:\n  - \"GET /file?name=\"\nsources:\n  - \"query string parameter 'name'\"\nsinks:\n  - \"open(os.path.join(PUBLIC_DIR, name))\"\ntrust_boundary: \"network client to the service host\"\nassets_at_risk:\n  - \"files readable by the service account\"\nvalidation:\n  status: \"NOT_STARTED\"\n  methods: []\n  evidence_dir: \"itemdb/evidence/CC-0003\"\n  summary: \"\"\nexploitation:\n  status: \"NOT_STARTED\"\n  impact_demonstrated: \"\"\n  exploit_type: \"\"\n  severity_before: \"\"\n  severity_after: \"\"\n  artifacts_dir: \"itemdb/evidence/CC-0003/exploits\"\n  summary: \"\"\ncreated_at: \"2026-11-24\"\nupdated_at: \"2026-11-24\"\n---\n\n# Summary\n\nThe `/file?name=` route passes the query string parameter 'name' to open(os.path.join(PUBLIC_DIR, name)) without validation.\n\n# Target context\n\nSmall standard-library Python web service; the route is reachable by any unauthenticated network client.\n\n# Affected code\n\n`src/app.py`, `Handler.do_GET`:\n\n    with open(os.path.join(PUBLIC_DIR, name)) as handle:\n\n# Vulnerability hypothesis\n\nThe input is attacker-controlled and reaches a dangerous operation unchanged. This is known from reading the code; the\nexact behaviour at runtime is assumed until Phase 4 reproduces it.\n\n# Source-to-sink reasoning\n\n`parse_qs(url.query)` returns the raw parameter; the value is used directly in the sink on the next lines.\n\n# Attackability / trigger conditions\n\nA single GET request, for example `name=../app.py`. No authentication or special state is needed.\n\n# Impact\n\nRead any file the service account can read.\n\n# Validation plan\n\nStart the service in the sandbox and send the request above; compare the response with a benign request.\n\n# Counter-analysis\n\nPhase 3 review: looked for validation, escaping or an allow-list on the path from the source to the sink and found none. Not a duplicate of the other two findings (different sink and root cause). Kept as PENDING.\n\n# Validation result\n\nNot validated yet.\n\n# Evidence\n\nNone yet.\n"
+     }
+    },
+    {
+     "type": "tool_call",
+     "id": "call_52",
+     "name": "write",
+     "arguments": {
+      "filePath": "runs/phase-3-summary-2026-11-24-000004.md",
+      "content": "# CodeCome Run Summary\n\n# Goal\n\nPhase 3: counter-analysis and deduplication (mock run).\n\n# Files read\n\n- itemdb/findings/PENDING/CC-0001-sql-injection-user-name.md\n- itemdb/findings/PENDING/CC-0002-os-command-injection-ping.md\n- itemdb/findings/PENDING/CC-0003-path-traversal-file-name.md\n\n# Files created\n\n(findings updated in place)\n\n# Important observations\n\nMock run on the tiny demo target.\n\n# Assumptions\n\nNone.\n\n# Open questions for the user\n\nNone.\n\n# Re-run prompt hints\n\nNone.\n"
+     }
+    },
+    {
+     "type": "usage",
+     "prompt_tokens": 33000
+    },
+    {
+     "type": "text",
+     "content": "Phase 3 is complete: three findings reviewed, none rejected or merged.",
+     "tokens_per_second": 14
+    },
+    {
+     "type": "done"
+    }
+   ]
+  },
+  {
+   "match": "codecome phase 4: finding validation",
+   "script": [
+    {
+     "type": "usage",
+     "prompt_tokens": 26000
+    },
+    {
+     "type": "sleep",
+     "seconds": 8
+    },
+    {
+     "type": "text",
+     "content": "I will validate CC-0001: read the finding, the code and the validation skill first.",
+     "tokens_per_second": 14
+    },
+    {
+     "type": "tool_call",
+     "id": "call_53",
+     "name": "read",
+     "arguments": {
+      "filePath": "AGENTS.md"
+     }
+    },
+    {
+     "type": "tool_call",
+     "id": "call_54",
+     "name": "read",
+     "arguments": {
+      "filePath": "itemdb/findings/PENDING/CC-0001-sql-injection-user-name.md"
+     }
+    },
+    {
+     "type": "tool_call",
+     "id": "call_55",
+     "name": "read",
+     "arguments": {
+      "filePath": "src/app.py"
+     }
+    },
+    {
+     "type": "tool_call",
+     "id": "call_56",
+     "name": "read",
+     "arguments": {
+      "filePath": ".opencode/skills/exploit-validation/SKILL.md"
+     }
+    },
+    {
+     "type": "usage",
+     "prompt_tokens": 31000
+    },
+    {
+     "type": "sleep",
+     "seconds": 5
+    },
+    {
+     "type": "text",
+     "content": "Reproducing the issue against the sandboxed service and recording the evidence.",
+     "tokens_per_second": 14
+    },
+    {
+     "type": "tool_call",
+     "id": "call_57",
+     "name": "bash",
+     "arguments": {
+      "command": "echo 'mock reproduction step (nothing is executed against the target)'",
+      "description": "Mock reproduction"
+     }
+    },
+    {
+     "type": "tool_call",
+     "id": "call_58",
+     "name": "write",
+     "arguments": {
+      "filePath": "itemdb/evidence/CC-0001/README.md",
+      "content": "# Evidence for CC-0001\n\n# Summary\n\nMock evidence written by the test LLM; it was not produced by a real run.\n\n# Validation method\n\n- HTTP exploit\n"
+     }
+    },
+    {
+     "type": "tool_call",
+     "id": "call_59",
+     "name": "write",
+     "arguments": {
+      "filePath": "itemdb/evidence/CC-0001/request.txt",
+      "content": "GET /user?name=' OR '1'='1 HTTP/1.1\nHost: sandbox\n"
+     }
+    },
+    {
+     "type": "tool_call",
+     "id": "call_60",
+     "name": "write",
+     "arguments": {
+      "filePath": "itemdb/evidence/CC-0001/response.txt",
+      "content": "HTTP/1.0 200 OK\n\n[(1, 'alice'), (2, 'bob')]\n"
+     }
+    },
+    {
+     "type": "tool_call",
+     "id": "call_61",
+     "name": "write",
+     "arguments": {
+      "filePath": "itemdb/findings/PENDING/CC-0001-sql-injection-user-name.md",
+      "content": "---\nid: \"CC-0001\"\ntitle: \"SQL injection in /user via the name parameter\"\nstatus: \"PENDING\"\nseverity: \"HIGH\"\ncvss_v4:\n  vector: \"CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:N/VA:N/SC:N/SI:N/SA:N\"\n  score: 8.7\n  justification: \"Network reachable, no authentication, full read of the users table.\"\nconfidence: \"MEDIUM\"\ncategory: \"SQL injection\"\ncwe:\n  - \"CWE-89\"\nlanguage: \"python\"\ntarget_area: \"HTTP handler /user?name=\"\nfiles:\n  - \"src/app.py\"\nsymbols:\n  - \"Handler.do_GET\"\nentry_points:\n  - \"GET /user?name=\"\nsources:\n  - \"query string parameter 'name'\"\nsinks:\n  - \"sqlite3 execute() with string formatting\"\ntrust_boundary: \"network client to the service host\"\nassets_at_risk:\n  - \"users table (names and secrets)\"\nvalidation:\n  status: \"NOT_STARTED\"\n  methods:\n  - \"http_exploit\"\n  evidence_dir: \"itemdb/evidence/CC-0001\"\n  summary: \"Reproduced with a single request against the sandboxed service (mock evidence).\"\nexploitation:\n  status: \"NOT_STARTED\"\n  impact_demonstrated: \"\"\n  exploit_type: \"\"\n  severity_before: \"\"\n  severity_after: \"\"\n  artifacts_dir: \"itemdb/evidence/CC-0001/exploits\"\n  summary: \"\"\ncreated_at: \"2026-11-24\"\nupdated_at: \"2026-11-24\"\n---\n\n# Summary\n\nThe `/user?name=` route passes the query string parameter 'name' to sqlite3 execute() with string formatting without validation.\n\n# Target context\n\nSmall standard-library Python web service; the route is reachable by any unauthenticated network client.\n\n# Affected code\n\n`src/app.py`, `Handler.do_GET`:\n\n    rows = DB.execute(\"SELECT id, name FROM users WHERE name = '%s'\" % name)\n\n# Vulnerability hypothesis\n\nThe input is attacker-controlled and reaches a dangerous operation unchanged. This is known from reading the code; the\nexact behaviour at runtime is assumed until Phase 4 reproduces it.\n\n# Source-to-sink reasoning\n\n`parse_qs(url.query)` returns the raw parameter; the value is used directly in the sink on the next lines.\n\n# Attackability / trigger conditions\n\nA single GET request, for example `name=' OR '1'='1`. No authentication or special state is needed.\n\n# Impact\n\nRead every row of the users table, including the secrets.\n\n# Validation plan\n\nStart the service in the sandbox and send the request above; compare the response with a benign request.\n\n# Counter-analysis\n\nPhase 3 review: looked for validation, escaping or an allow-list on the path from the source to the sink and found none. Not a duplicate of the other two findings (different sink and root cause). Kept as PENDING.\n\n# Validation result\n\nConfirmed: the request below returns data the caller should not see (mock evidence, not a real run).\n\n# Evidence\n\n`itemdb/evidence/CC-0001/request.txt` and `response.txt`.\n\n# Remediation idea\n\nPass the value as data, never as part of the code or command:\n\n```diff\n- rows = DB.execute(\"SELECT id, name FROM users WHERE name = '%s'\" % name).fetchall()\n+ rows = DB.execute(\"SELECT id, name FROM users WHERE name = ?\", (name,)).fetchall()\n```\n"
+     }
+    },
+    {
+     "type": "tool_call",
+     "id": "call_62",
+     "name": "write",
+     "arguments": {
+      "filePath": "runs/phase-4-CC-0001-summary-2026-11-24-000005.md",
+      "content": "# CodeCome Run Summary\n\n# Goal\n\nPhase 4: validation of CC-0001 (mock run).\n\n# Files read\n\n- itemdb/findings/PENDING/CC-0001-sql-injection-user-name.md\n- src/app.py\n\n# Files created\n\n- itemdb/evidence/CC-0001/README.md\n- itemdb/evidence/CC-0001/request.txt\n- itemdb/evidence/CC-0001/response.txt\n\n# Important observations\n\nMock run on the tiny demo target.\n\n# Assumptions\n\nNone.\n\n# Open questions for the user\n\nNone.\n\n# Re-run prompt hints\n\nNone.\n"
+     }
+    },
+    {
+     "type": "usage",
+     "prompt_tokens": 34000
+    },
+    {
+     "type": "sleep",
+     "seconds": 3
+    },
+    {
+     "type": "text",
+     "content": "Evidence is in place. Confirming the finding with the official tool.",
+     "tokens_per_second": 14
+    },
+    {
+     "type": "tool_call",
+     "id": "call_63",
+     "name": "bash",
+     "arguments": {
+      "command": "python3 tools/move-finding.py CC-0001 CONFIRMED",
+      "description": "Move the finding to CONFIRMED"
+     }
+    },
+    {
+     "type": "usage",
+     "prompt_tokens": 34500
+    },
+    {
+     "type": "text",
+     "content": "Phase 4 is complete: CC-0001 is CONFIRMED.",
+     "tokens_per_second": 14
+    },
+    {
+     "type": "done"
+    }
+   ]
+  },
+  {
+   "match": "codecome phase 5: exploit development",
+   "script": [
+    {
+     "type": "usage",
+     "prompt_tokens": 28000
+    },
+    {
+     "type": "sleep",
+     "seconds": 8
+    },
+    {
+     "type": "text",
+     "content": "I will develop a proof of concept for CC-0001, which Phase 4 confirmed.",
+     "tokens_per_second": 14
+    },
+    {
+     "type": "tool_call",
+     "id": "call_64",
+     "name": "read",
+     "arguments": {
+      "filePath": "AGENTS.md"
+     }
+    },
+    {
+     "type": "tool_call",
+     "id": "call_65",
+     "name": "read",
+     "arguments": {
+      "filePath": "itemdb/findings/CONFIRMED/CC-0001-sql-injection-user-name.md"
+     }
+    },
+    {
+     "type": "tool_call",
+     "id": "call_66",
+     "name": "read",
+     "arguments": {
+      "filePath": "itemdb/evidence/CC-0001/README.md"
+     }
+    },
+    {
+     "type": "tool_call",
+     "id": "call_67",
+     "name": "read",
+     "arguments": {
+      "filePath": "src/app.py"
+     }
+    },
+    {
+     "type": "tool_call",
+     "id": "call_68",
+     "name": "read",
+     "arguments": {
+      "filePath": "templates/exploit-readme.md"
+     }
+    },
+    {
+     "type": "tool_call",
+     "id": "call_69",
+     "name": "read",
+     "arguments": {
+      "filePath": ".opencode/skills/exploit-development/SKILL.md"
+     }
+    },
+    {
+     "type": "usage",
+     "prompt_tokens": 33000
+    },
+    {
+     "type": "sleep",
+     "seconds": 5
+    },
+    {
+     "type": "text",
+     "content": "The issue is reproducible with a single request. Documenting the proof of concept and updating the finding.",
+     "tokens_per_second": 14
+    },
+    {
+     "type": "tool_call",
+     "id": "call_70",
+     "name": "bash",
+     "arguments": {
+      "command": "echo 'mock proof of concept step (nothing is executed against the target)'",
+      "description": "Mock PoC step"
+     }
+    },
+    {
+     "type": "tool_call",
+     "id": "call_71",
+     "name": "write",
+     "arguments": {
+      "filePath": "itemdb/evidence/CC-0001/exploits/README.md",
+      "content": "# Exploit for CC-0001\n\n# Summary\n\nMock artifact written by the test LLM; it was not produced by a real run.\n\n# Proof of concept\n\nOne HTTP request: `GET /user?name=' OR '1'='1`.\n"
+     }
+    },
+    {
+     "type": "tool_call",
+     "id": "call_72",
+     "name": "write",
+     "arguments": {
+      "filePath": "itemdb/evidence/CC-0001/exploits/poc-request.txt",
+      "content": "GET /user?name=' OR '1'='1 HTTP/1.1\nHost: sandbox\n"
+     }
+    },
+    {
+     "type": "tool_call",
+     "id": "call_73",
+     "name": "write",
+     "arguments": {
+      "filePath": "itemdb/findings/CONFIRMED/CC-0001-sql-injection-user-name.md",
+      "content": "---\nid: \"CC-0001\"\ntitle: \"SQL injection in /user via the name parameter\"\nstatus: \"CONFIRMED\"\nseverity: \"HIGH\"\ncvss_v4:\n  vector: \"CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:N/VA:N/SC:N/SI:N/SA:N\"\n  score: 8.7\n  justification: \"Network reachable, no authentication, full read of the users table.\"\nconfidence: \"CONFIRMED\"\ncategory: \"SQL injection\"\ncwe:\n  - \"CWE-89\"\nlanguage: \"python\"\ntarget_area: \"HTTP handler /user?name=\"\nfiles:\n  - \"src/app.py\"\nsymbols:\n  - \"Handler.do_GET\"\nentry_points:\n  - \"GET /user?name=\"\nsources:\n  - \"query string parameter 'name'\"\nsinks:\n  - \"sqlite3 execute() with string formatting\"\ntrust_boundary: \"network client to the service host\"\nassets_at_risk:\n  - \"users table (names and secrets)\"\nvalidation:\n  status: \"CONFIRMED\"\n  methods:\n  - \"http_exploit\"\n  evidence_dir: \"itemdb/evidence/CC-0001\"\n  summary: \"Reproduced with a single request against the sandboxed service (mock evidence).\"\nexploitation:\n  status: \"DEMONSTRATED\"\n  impact_demonstrated: \"Read every row of the users table, including the secrets. (mock demonstration)\"\n  exploit_type: \"http_exploit\"\n  severity_before: \"HIGH\"\n  severity_after: \"HIGH\"\n  artifacts_dir: \"itemdb/evidence/CC-0001/exploits\"\n  summary: \"Single unauthenticated request (mock, not a real run).\"\ncreated_at: \"2026-11-24\"\nupdated_at: \"2026-11-24\"\n---\n\n# Summary\n\nThe `/user?name=` route passes the query string parameter 'name' to sqlite3 execute() with string formatting without validation.\n\n# Target context\n\nSmall standard-library Python web service; the route is reachable by any unauthenticated network client.\n\n# Affected code\n\n`src/app.py`, `Handler.do_GET`:\n\n    rows = DB.execute(\"SELECT id, name FROM users WHERE name = '%s'\" % name)\n\n# Vulnerability hypothesis\n\nThe input is attacker-controlled and reaches a dangerous operation unchanged. This is known from reading the code; the\nexact behaviour at runtime is assumed until Phase 4 reproduces it.\n\n# Source-to-sink reasoning\n\n`parse_qs(url.query)` returns the raw parameter; the value is used directly in the sink on the next lines.\n\n# Attackability / trigger conditions\n\nA single GET request, for example `name=' OR '1'='1`. No authentication or special state is needed.\n\n# Impact\n\nRead every row of the users table, including the secrets.\n\n# Validation plan\n\nStart the service in the sandbox and send the request above; compare the response with a benign request.\n\n# Counter-analysis\n\nPhase 3 review: looked for validation, escaping or an allow-list on the path from the source to the sink and found none. Not a duplicate of the other two findings (different sink and root cause). Kept as PENDING.\n\n# Validation result\n\nConfirmed: the request below returns data the caller should not see (mock evidence, not a real run).\n\n# Evidence\n\n`itemdb/evidence/CC-0001/request.txt` and `response.txt`.\n\n# Exploitation Result\n\nDemonstrated with one unauthenticated HTTP request (mock result: nothing was executed against the target).\n\n# Demonstrated Impact\n\nRead every row of the users table, including the secrets.\n\n# Root cause analysis\n\nThe request parameter is concatenated into the dangerous operation instead of being passed as data.\n\n# Data flow\n\n`parse_qs(url.query)` -> local variable -> sqlite3 execute() with string formatting.\n\n# Inputs and preconditions\n\nNetwork access to the service. No authentication, no special state.\n\n# Recording\n\nMock run: no terminal recording was produced.\n\n# Remediation idea\n\nPass the value as data, never as part of the code or command:\n\n```diff\n- rows = DB.execute(\"SELECT id, name FROM users WHERE name = '%s'\" % name).fetchall()\n+ rows = DB.execute(\"SELECT id, name FROM users WHERE name = ?\", (name,)).fetchall()\n```\n"
+     }
+    },
+    {
+     "type": "tool_call",
+     "id": "call_74",
+     "name": "write",
+     "arguments": {
+      "filePath": "runs/phase-5-CC-0001-summary-2026-11-24-000006.md",
+      "content": "# CodeCome Run Summary\n\n# Goal\n\nPhase 5: exploit development for CC-0001 (mock run).\n\n# Files read\n\n- itemdb/findings/CONFIRMED/CC-0001-sql-injection-user-name.md\n- src/app.py\n\n# Files created\n\n- itemdb/evidence/CC-0001/exploits/README.md\n- itemdb/evidence/CC-0001/exploits/poc-request.txt\n\n# Important observations\n\nMock run on the tiny demo target.\n\n# Assumptions\n\nNone.\n\n# Open questions for the user\n\nNone.\n\n# Re-run prompt hints\n\nNone.\n"
+     }
+    },
+    {
+     "type": "usage",
+     "prompt_tokens": 35000
+    },
+    {
+     "type": "sleep",
+     "seconds": 3
+    },
+    {
+     "type": "text",
+     "content": "Artifacts are in place. Marking the finding as exploited with the official tool.",
+     "tokens_per_second": 14
+    },
+    {
+     "type": "tool_call",
+     "id": "call_75",
+     "name": "bash",
+     "arguments": {
+      "command": "python3 tools/move-finding.py CC-0001 EXPLOITED",
+      "description": "Move the finding to EXPLOITED"
+     }
+    },
+    {
+     "type": "usage",
+     "prompt_tokens": 35500
+    },
+    {
+     "type": "text",
+     "content": "Phase 5 is complete: CC-0001 is EXPLOITED.",
+     "tokens_per_second": 14
+    },
+    {
+     "type": "done"
+    }
+   ]
+  },
+  {
+   "match": "codecome phase 6: reporting",
+   "script": [
+    {
+     "type": "usage",
+     "prompt_tokens": 20000
+    },
+    {
+     "type": "sleep",
+     "seconds": 6
+    },
+    {
+     "type": "text",
+     "content": "I will read the report template and the findings that reached CONFIRMED or EXPLOITED.",
+     "tokens_per_second": 14
+    },
+    {
+     "type": "tool_call",
+     "id": "call_76",
+     "name": "read",
+     "arguments": {
+      "filePath": "AGENTS.md"
+     }
+    },
+    {
+     "type": "tool_call",
+     "id": "call_77",
+     "name": "read",
+     "arguments": {
+      "filePath": "templates/report.md"
+     }
+    },
+    {
+     "type": "tool_call",
+     "id": "call_78",
+     "name": "read",
+     "arguments": {
+      "filePath": "itemdb/findings/EXPLOITED/CC-0001-sql-injection-user-name.md"
+     }
+    },
+    {
+     "type": "usage",
+     "prompt_tokens": 26000
+    },
+    {
+     "type": "sleep",
+     "seconds": 3
+    },
+    {
+     "type": "text",
+     "content": "Rendering the report with the official tool.",
+     "tokens_per_second": 14
+    },
+    {
+     "type": "tool_call",
+     "id": "call_79",
+     "name": "bash",
+     "arguments": {
+      "command": "python3 tools/render-report.py",
+      "description": "Render the report from the findings"
+     }
+    },
+    {
+     "type": "tool_call",
+     "id": "call_80",
+     "name": "write",
+     "arguments": {
+      "filePath": "runs/phase-6-summary-2026-11-24-000007.md",
+      "content": "# CodeCome Run Summary\n\n# Goal\n\nPhase 6: reporting (mock run).\n\n# Files read\n\n- templates/report.md\n- itemdb/findings/EXPLOITED/CC-0001-sql-injection-user-name.md\n\n# Files created\n\n- itemdb/reports/report.md\n\n# Important observations\n\nMock run on the tiny demo target.\n\n# Assumptions\n\nNone.\n\n# Open questions for the user\n\nNone.\n\n# Re-run prompt hints\n\nNone.\n"
+     }
+    },
+    {
+     "type": "usage",
+     "prompt_tokens": 27000
+    },
+    {
+     "type": "text",
+     "content": "Phase 6 is complete: the report was rendered from the findings.",
+     "tokens_per_second": 14
+    },
+    {
+     "type": "done"
+    }
+   ]
+  }
+ ],
+ "default": [
+  {
+   "type": "text",
+   "content": "No mock scenario is written for this phase yet.",
+   "tokens_per_second": 14
+  },
+  {
+   "type": "done"
+  }
+ ]
+}

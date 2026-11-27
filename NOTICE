@@ -1,0 +1,63 @@
+CodeCome Web
+============
+
+A web interface for CodeCome (AI-assisted vulnerability research workspace):
+a guided journey through the audit phases, findings, reports, recordings,
+archives and costs.
+
+Copyright (C) 2026 @jesusdml
+
+
+Licensing
+---------
+
+CodeCome Web is dual-licensed, like CodeCome itself, under your choice of:
+
+  * GNU General Public License version 3 or later, or
+  * GNU Affero General Public License version 3 or later.
+
+SPDX expression for the project as a whole:
+
+    GPL-3.0-or-later OR AGPL-3.0-or-later
+
+CodeCome Web is a network service: if you run a modified version for other
+people over a network, the AGPL asks you to offer them its source code.
+
+Full license texts are provided in:
+
+  * LICENSE       (GPL-3.0)
+  * AGPL-LICENSE  (AGPL-3.0)
+
+
+Third-party components shipped in this repository
+-------------------------------------------------
+
+app/static/vendor/preact-htm.js
+    htm 3.1.1 "preact/standalone" build, unmodified, which bundles Preact 10
+    and its hooks.
+    - htm:    Apache License 2.0, Copyright 2018 Google Inc.
+              Text: app/static/vendor/LICENSE-htm.txt
+    - Preact: MIT License, Copyright (c) 2015-present Jason Miller
+              Text: app/static/vendor/LICENSE-preact.txt
+
+app/static/vendor/fonts/inter-*.woff2
+    Inter (variable, latin and latin-ext subsets), SIL Open Font License 1.1.
+    Text: app/static/vendor/fonts/OFL-Inter.txt
+
+app/static/vendor/fonts/jetbrains-mono-*.woff2
+    JetBrains Mono (variable, latin and latin-ext subsets), SIL Open Font
+    License 1.1.
+    Text: app/static/vendor/fonts/OFL-JetBrainsMono.txt
+
+Sources, versions and SHA-256 sums: app/static/vendor/VERSIONS.md
+
+
+Third-party dependencies installed separately (not shipped here)
+-----------------------------------------------------------------
+
+Installed by pip from requirements.txt, each under its own license:
+FastAPI (MIT), Uvicorn (BSD-3-Clause), PyYAML (MIT), markdown-it-py (MIT),
+and their dependencies.
+
+System tools used at run time: GnuPG (archives), OpenSSL (local HTTPS CA),
+Docker (through CodeCome), all installed from the operating system.

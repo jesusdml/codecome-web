@@ -1,0 +1,32 @@
+# Runtime data: databases, users (password hashes), session key, logs, secrets, uploads.
+# Never in git, on any branch.
+data/
+demo/data/
+demo/workspace/
+*.db
+*.db-shm
+*.db-wal
+secret.key
+users.json
+*.key
+*.pem
+*.crt
+!app/static/vendor/**
+.env
+*.env
+worker.env
+
+# Python / tooling
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+*.egg-info/
+build/
+dist/
+
+# Editors / OS
+.vscode/
+.idea/
+*.swp
+.DS_Store

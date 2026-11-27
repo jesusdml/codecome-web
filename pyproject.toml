@@ -1,0 +1,42 @@
+# SPDX-License-Identifier: GPL-3.0-or-later OR AGPL-3.0-or-later
+# SPDX-FileCopyrightText: 2026 @jesusdml
+#
+# Project metadata, dependencies and tool settings.
+#
+# CodeCome Web is installed as an APPLICATION DIRECTORY with its own virtualenv (install.sh copies
+# the tree and runs `pip install -r requirements.txt`), not as a wheel into site-packages: its
+# package is called `app`, which must not land in a shared site-packages. That is why there is no
+# [build-system] here. requirements*.txt keep the exact pins the installer uses; the ranges below
+# document what is supported.
+
+[project]
+name = "codecome-web"
+version = "1.1.0"
+description = "Web interface for CodeCome: a guided journey through the audit phases, findings, reports, archives and costs."
+readme = "README.md"
+requires-python = ">=3.12"
+license = "GPL-3.0-or-later OR AGPL-3.0-or-later"
+license-files = ["LICENSE", "AGPL-LICENSE", "NOTICE", "app/static/vendor/LICENSE-*.txt", "app/static/vendor/fonts/OFL-*.txt"]
+authors = [{ name = "@jesusdml" }]
+keywords = ["security", "vulnerability research", "audit", "codecome", "fastapi"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Web Environment",
+    "Framework :: FastAPI",
+    "Intended Audience :: Information Technology",
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Security",
+]
+dependencies = [
+    "fastapi>=0.165,<1",
+    "uvicorn>=0.54,<1",
+    "PyYAML>=6.0,<7",
+    "markdown-it-py>=4.3,<5",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=9.2", "httpx>=0.28"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

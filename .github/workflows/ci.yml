@@ -1,0 +1,48 @@
+# SPDX-License-Identifier: GPL-3.0-or-later OR AGPL-3.0-or-later
+# SPDX-FileCopyrightText: 2026 @jesusdml
+name: CI
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      install_test:
+        description: "Also run install.sh for real in a throw-away systemd container"
+        type: boolean
+        default: false
+
+permissions:
+  contents: read   # nothing here needs to write to the repository
+
+jobs:
+  tests:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install dependencies
+        run: |
+          python -m venv .venv
+          .venv/bin/pip install -q -r requirements-dev.txt
+      - name: Shell scripts parse
+        run: for f in install.sh uninstall.sh deploy/tls-setup.sh tools/*.sh run.sh; do bash -n "$f"; done
+      - name: Tests (unit, API, licensing and leak guards)
+        run: .venv/bin/python -m pytest -q
+
+  install-test:
+    if: github.event_name == 'workflow_dispatch' && inputs.install_test
+    needs: tests
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: install.sh / uninstall.sh in Ubuntu 24.04 + systemd
+        run: sudo bash tools/test-install-container.sh "$PWD" "$RUNNER_TEMP/install-test"
+      - name: Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: install-test-report
+          path: ${{ runner.temp }}/install-test/report.txt
