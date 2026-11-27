@@ -40,7 +40,7 @@ def test_example_profiles_load_and_are_clean(tmp_path):
 
 def test_readme_links_and_commands_exist():
     text = (ROOT / "README.md").read_text(encoding="utf-8")
-    for target in re.findall(r"\]\(([^)#:]+)\)", text):            # relative links
+    for target in re.findall(r"\]\(([^)#:]+)\)", text) + re.findall(r'src="([^":]+)"', text):  # relative links, images
         assert (ROOT / target).exists(), target
     codecome_own = {"tools/gate-check.py",                          # CodeCome's files, not ours
                     "config/profiles.json"}                         # created by install.sh from the example

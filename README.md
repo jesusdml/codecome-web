@@ -6,9 +6,12 @@ It turns CodeCome's phases into a guided journey: launch each phase, watch it wo
 the findings, read and print the report, replay exploit recordings, and keep a history of finished
 audits as encrypted archives. All the work is still done by CodeCome; this project never changes it.
 
-**▶ [A 30-second tour](media/codecome-web-1.1-spot.mp4)** (video, no sound).
-
 ![License: GPL-3.0-or-later OR AGPL-3.0-or-later](https://img.shields.io/badge/license-GPL--3.0--or--later%20OR%20AGPL--3.0--or--later-blue.svg)
+
+![The Journey: the six phases, live progress, real cost and cache savings](media/screenshot-journey.webp)
+
+**▶ [A 30-second tour](media/codecome-web-1.1-spot.mp4)** (video, no sound). Screenshots and video
+use invented demo data.
 
 - **Journey** — the six phases (recon, hypotheses, counter-analysis, validation, exploit, report)
   as one page: what is done, what can run next and why not, live progress of the running job,
@@ -25,6 +28,17 @@ audits as encrypted archives. All the work is still done by CodeCome; this proje
 - **Upload code** — `.tar.gz` / `.zip` (optionally ZipCrypto-encrypted) through a hardened extractor.
 - **How it works** — an illustrated explanation of the method, for people new to the tool.
 - Seven languages (en, es, de, fr, ca, gl, eu), light and dark themes, HTTPS out of the box.
+
+<table>
+  <tr>
+    <td width="50%"><img src="media/screenshot-archive.webp" alt="Archive: encrypted audits with their cost and the models used, one at $0 on a local model"></td>
+    <td width="50%"><img src="media/screenshot-matrix-dark.webp" alt="Dark mode: per-finding validation and exploit matrix with a live job"></td>
+  </tr>
+  <tr>
+    <td><sub><b>Archive</b> — one encrypted file per audit, its cost and the models it used (the last one ran on a local model, $0).</sub></td>
+    <td><sub><b>Phases 4 · 5</b> — validation and exploit per finding, live job, "Assume" with a reason (dark mode).</sub></td>
+  </tr>
+</table>
 
 ## Contents
 
@@ -117,6 +131,8 @@ created from [config/profiles.example.json](config/profiles.example.json), lists
   `deploy/` (TLS setup, unit templates), `install.sh`, `uninstall.sh`, `tests/`.
 
 ## Security model
+
+<img src="media/screenshot-upload.webp" align="right" width="300" alt="Upload code: a zip chosen and the new audit named">
 
 - **Agent output is untrusted.** Markdown is parsed to a tree of allowed tags (links limited to
   safe schemes); recordings are parsed into plain text; files are read with `O_NOFOLLOW`, size caps

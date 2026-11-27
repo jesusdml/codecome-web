@@ -59,7 +59,7 @@ def ws(tmp_path):
 def run_archive(root, data, store, db, password=PASS):
     name = oneshot.put(data / "secrets", password)
     aid = db.enqueue_maintenance("archive", "ana", secret=name)
-    h = make_handlers(root, data, store=store, db=db, cost=lambda project, since: 1.23456)
+    h = make_handlers(root, data, store=store, db=db, usage=lambda ids: (1.23456, ["claude-sonnet-5-5", "qwen3.5:9b-32k"]))
     Runner(db, root, maintenance=h, secrets_dir=data / "secrets").run(db.claim_next(data / "logs"))
     return db.get(aid)
 
@@ -84,6 +84,7 @@ def test_archive_roundtrip_and_reset(ws):
     assert [p.name for p in store.iterdir() if p.name.startswith(".")] == []   # no .part left
     meta = json.loads(meta_file.read_text())
     assert meta["project"] == "Demo App" and meta["by"] == "ana" and meta["cost_usd"] == 1.2346
+    assert meta["models"] == ["claude-sonnet-5-5", "qwen3.5:9b-32k"]
     assert meta["sha256"] == arch.sha256_file(gpg_file) and meta["jobs"] == 1 and meta["assumed"] == 1
     assert meta["files"] == 8 and meta["findings"] == {"PENDING": 1}
 

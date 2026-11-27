@@ -225,7 +225,8 @@ def sha256_file(path: Path) -> str:
     return h.hexdigest()
 
 
-def make_archive_handler(root: Path, data: Path, store: Path, db: JobDB, cost=None):
+def make_archive_handler(root: Path, data: Path, store: Path, db: JobDB, usage=None):
+    """`usage(job_ids) -> (usd, [model, ...])`: what THESE jobs spent and with which models (ledger)."""
     root, data, store = Path(root), Path(data), Path(store)
 
     def archive(job: dict, secret: bytearray | None, log) -> dict:
@@ -250,13 +251,13 @@ def make_archive_handler(root: Path, data: Path, store: Path, db: JobDB, cost=No
         phase_jobs = [j for j in db.list_jobs(None) if j["action"] in ACTIONS and j["status"] not in ("queued", "running")]
         marks = db.export_marks()
         info = summary(root, phase_jobs, db.marks())
-        since = min((j["created_at"] for j in phase_jobs), default=None)
-        usd = None
-        if cost is not None and project:
-            try:
-                usd = round(cost(project, since), 4)
+        usd, models = None, []
+        if usage is not None and phase_jobs:
+            try:  # bookkeeping only: never block an archive on it
+                spent, used = usage([j["id"] for j in phase_jobs])
+                usd, models = round(spent, 4), [str(m)[:60] for m in used][:6]
             except Exception:
-                usd = None
+                usd, models = None, []
 
         log(f"archive {aid}: {len(files)} files, {len(phase_jobs)} jobs, {len(marks)} assumed")
         manifest: dict[str, dict] = {}
@@ -289,7 +290,7 @@ def make_archive_handler(root: Path, data: Path, store: Path, db: JobDB, cost=No
         meta = {"format": FORMAT, "id": aid, "project": project, "created_at": time.time(),
                 "by": job.get("requested_by"), "file": final.name, "size": size, "sha256": digest,
                 "files": len(files), "bytes": total, "jobs": len(phase_jobs), "assumed": len(marks),
-                "cost_usd": usd, **info}
+                "cost_usd": usd, "models": models, **info}
         _write_json(store / f"{aid}.json", meta)
         log(f"verified ✓ {final.name} ({size} bytes, sha256 {digest[:16]}…)")
 

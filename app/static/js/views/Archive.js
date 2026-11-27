@@ -89,7 +89,8 @@ export function Archive() {
           ${a.assumed ? html`<div class="small mut"><${Icon} name="warn" /> ${t("archive.assumed", { n: a.assumed })}</div>` : null}</td>
         <td class="small">${t("archive.files", { n: a.files ?? "?" })} · ${size(a.bytes)}
           <div class="mut">${t("archive.encrypted", { size: size(a.size) })}</div></td>
-        <td class="mono small">${a.cost_usd == null ? "—" : "$" + a.cost_usd.toFixed(2)}</td>
+        <td class="mono small">${a.cost_usd == null ? "—" : "$" + a.cost_usd.toFixed(2)}
+          ${a.models && a.models.length ? html`<div class="mut models">${a.models.join(" · ")}</div>` : null}</td>
         <td class="actions">${d.can_rescue && html`<button class="btn small primary" disabled=${!d.workspace_empty}
             title=${d.workspace_empty ? t("rescue.hint_short") : t("rescue.not_empty")} onClick=${() => setRescuing(a)}>
             <${Icon} name="box" /> ${t("rescue.btn")}</button> `}

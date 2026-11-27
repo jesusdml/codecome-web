@@ -53,6 +53,8 @@ def _card(raw: dict, aid: str) -> dict:
         "assumed": _num(raw.get("assumed")),
         "cost_usd": round(cost, 4) if isinstance(cost, (int, float)) and not isinstance(cost, bool) and cost >= 0 else None,
         "phases": {k: v for k, v in phases.items() if k in ("1", "2", "3", "6") and v in PHASE_STATUSES},
+        "models": [m for m in (raw.get("models") if isinstance(raw.get("models"), list) else [])
+                   if isinstance(m, str) and re.fullmatch(r"[\w.:/@+-]{1,60}", m)][:6],
         "findings": {k: v for k, v in findings.items() if k in STATUSES and _num(v) is not None},
     }
 

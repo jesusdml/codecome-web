@@ -11,7 +11,7 @@
 
 [project]
 name = "codecome-web"
-version = "1.1.1"
+version = "1.1.2"
 description = "Web interface for CodeCome: a guided journey through the audit phases, findings, reports, archives and costs."
 readme = "README.md"
 requires-python = ">=3.12"

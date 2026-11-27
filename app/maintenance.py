@@ -20,8 +20,8 @@ from .safe_extract import ExtractError, extract
 UPLOAD_ERRORS_KEEP = ("bad_password", "password_required")  # the user can retry with the same file
 
 
-def make_handlers(root: Path, data: Path, *, store: Path | None = None, db=None, cost=None) -> dict:
-    """`store` = archive directory, `db` = JobDB, `cost(project, since)` = USD from the ledger."""
+def make_handlers(root: Path, data: Path, *, store: Path | None = None, db=None, usage=None) -> dict:
+    """`store` = archive directory, `db` = JobDB, `usage(job_ids)` = (USD, models) from the ledger."""
     root, data = Path(root), Path(data)
 
     def upload(job: dict, secret: bytearray | None, log) -> dict:
@@ -72,7 +72,7 @@ def make_handlers(root: Path, data: Path, *, store: Path | None = None, db=None,
     handlers = {"upload": upload}
     if store is not None and db is not None:
         from .archive import make_archive_handler, make_rescue_handler
-        handlers["archive"] = make_archive_handler(root, data, store, db, cost)
+        handlers["archive"] = make_archive_handler(root, data, store, db, usage)
         handlers["rescue"] = make_rescue_handler(root, store, db)
     if db is not None:
         from .archive import make_reset_handler

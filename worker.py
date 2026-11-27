@@ -40,7 +40,9 @@ if __name__ == "__main__":
     cleanup_staging(ROOT)
     uploads.clear(DATA / "uploads", max_age=uploads.MAX_AGE_S)
     store = Path(os.environ.get("CODECOME_ARCHIVES", "/opt/codecome-archives"))
-    cost = lambda project, since: ledger.usage(project=project, since=since)["total"]["cost"]  # noqa: E731
-    maintenance = make_handlers(ROOT, DATA, store=store, db=db, cost=cost)  # upload, archive, rescue
+    def usage(job_ids):  # what an audit's jobs spent, and with which models (for its archive card)
+        return (ledger.usage(job_ids=job_ids)["total"]["cost"],
+                [g["key"] for g in ledger.usage(job_ids=job_ids, group="model")["groups"]])
+    maintenance = make_handlers(ROOT, DATA, store=store, db=db, usage=usage)  # upload, archive, rescue, reset
     work_loop(db, Runner(db, ROOT, profiles=profiles, ledger=ledger, maintenance=maintenance,
                          secrets_dir=DATA / "secrets"), DATA / "logs", lambda: stop)

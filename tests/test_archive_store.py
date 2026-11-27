@@ -18,6 +18,7 @@ def card(store, aid=AID, **extra):
     data = {"format": 1, "id": aid, "project": "Demo App", "created_at": 1764238500.0, "by": "ana", "size": 2048,
             "sha256": "a" * 64, "files": 8, "bytes": 9000, "jobs": 3, "assumed": 1, "cost_usd": 1.23456,
             "phases": {"1": "done", "2": "done", "3": "done", "6": "none", "9": "done", "1x": "<b>"},
+            "models": ["claude-opus-4-8", "qwen3.5:9b-32k", "<script>", 7, "x" * 80],
             "findings": {"PENDING": 2, "EVIL": 5, "CONFIRMED": -1}, "secret": "never shown"}
     data.update(extra)
     (store / f"{aid}.json").write_text(json.dumps(data))
@@ -31,6 +32,7 @@ def test_cards_keep_only_checked_fields(tmp_path):
     assert a["id"] == AID and b["id"] == "older-20261101-090000"
     assert a["phases"] == {"1": "done", "2": "done", "3": "done", "6": "none"}
     assert a["findings"] == {"PENDING": 2} and a["cost_usd"] == 1.2346 and "secret" not in a
+    assert a["models"] == ["claude-opus-4-8", "qwen3.5:9b-32k"]                 # bad entries dropped
     assert b["project"] == "<script>" and b["cost_usd"] is None        # text stays text; bad types dropped
 
 
