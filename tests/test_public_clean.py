@@ -9,7 +9,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 PUBLIC_CODE = ["app/**/*.py", "app/static/js/**/*.js", "app/static/*.css", "app/static/*.html", "tests/**/*.py",
                "tools/**/*.py", "tools/*.sh", "*.py", "*.sh", "config/*.example.json", "config/prices.json",
-               ".env.example", "pyproject.toml", "NOTICE", "README.md", "ROADMAP.md"]
+               ".env.example", "pyproject.toml", "NOTICE", "README.md", "ROADMAP.md", "SECURITY.md"]
 GENERIC = [r"192\.168\.\d+\.\d+", r"/home/(?!(?:x|dev)\b)\w+"]  # private LAN addresses, real home folders
 
 

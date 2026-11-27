@@ -45,6 +45,7 @@ use invented demo data.
 - [Requirements](#requirements) · [Install](#install) · [After installing](#after-installing)
 - [Architecture](#architecture) · [Security model](#security-model)
 - [Development](#development) · [Limitations](#limitations) · [Roadmap](ROADMAP.md) · [License](#license)
+- Found a security problem? See [SECURITY.md](SECURITY.md) (private reports, please).
 
 ## Requirements
 

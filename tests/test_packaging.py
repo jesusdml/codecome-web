@@ -56,5 +56,5 @@ def test_release_allowlist_keeps_private_files_out():
     allow = set(release.ALLOW)
     for private in ("docs", "deploy", "deploy/apply.sh", "config", "config/profiles.json", "private-markers.txt", "data", "demo"):
         assert private not in allow, private
-    assert {"install.sh", "uninstall.sh", "LICENSE", "AGPL-LICENSE", "NOTICE", "README.md", ".github"} <= allow
+    assert {"install.sh", "uninstall.sh", "LICENSE", "AGPL-LICENSE", "NOTICE", "README.md", "SECURITY.md", ".github"} <= allow
     assert all((ROOT / p).exists() for p in allow), [p for p in allow if not (ROOT / p).exists()]
